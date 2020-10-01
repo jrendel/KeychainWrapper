@@ -15,7 +15,7 @@ import CoreGraphics
 public extension KeychainWrapper {
         
     func remove(forKey key: Key) {
-        removeObject(forKey: key.rawValue)
+        try? removeObject(forKey: key.rawValue)
     }
     
 }
@@ -26,7 +26,7 @@ public extension KeychainWrapper {
         get { return string(forKey: key) }
         set {
             guard let value = newValue else { return }
-            set(value, forKey: key.rawValue)
+            try? set(value, forKey: key.rawValue)
         }
     }
 
@@ -34,7 +34,7 @@ public extension KeychainWrapper {
         get { return bool(forKey: key) }
         set {
             guard let value = newValue else { return }
-            set(value, forKey: key.rawValue)
+            try? set(value, forKey: key.rawValue)
         }
     }
 
@@ -42,7 +42,7 @@ public extension KeychainWrapper {
         get { return integer(forKey: key) }
         set {
             guard let value = newValue else { return }
-            set(value, forKey: key.rawValue)
+            try? set(value, forKey: key.rawValue)
         }
     }
 
@@ -50,7 +50,7 @@ public extension KeychainWrapper {
         get { return double(forKey: key) }
         set {
             guard let value = newValue else { return }
-            set(value, forKey: key.rawValue)
+            try? set(value, forKey: key.rawValue)
         }
     }
 
@@ -58,7 +58,7 @@ public extension KeychainWrapper {
         get { return float(forKey: key) }
         set {
             guard let value = newValue else { return }
-            set(value, forKey: key.rawValue)
+            try? set(value, forKey: key.rawValue)
         }
     }
 
@@ -68,7 +68,7 @@ public extension KeychainWrapper {
         set {
             guard let cgValue = newValue else { return }
             let value = Float(cgValue)
-            set(value, forKey: key.rawValue)
+            try? set(value, forKey: key.rawValue)
         }
     }
     #endif
@@ -77,7 +77,7 @@ public extension KeychainWrapper {
         get { return data(forKey: key) }
         set {
             guard let value = newValue else { return }
-            set(value, forKey: key.rawValue)
+            try? set(value, forKey: key.rawValue)
         }
     }
 

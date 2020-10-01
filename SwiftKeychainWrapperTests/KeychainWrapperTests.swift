@@ -44,16 +44,16 @@ class KeychainWrapperTests: XCTestCase {
         let key = "testKey"
         
         for accessibilityOption in accessibilityOptions {
-            KeychainWrapper.standard.set("Test123", forKey: key, withAccessibility: accessibilityOption)
-        
+            XCTAssertNoThrow(try KeychainWrapper.standard.set("Test123", forKey: key, withAccessibility: accessibilityOption))
+
             let accessibilityForKey = KeychainWrapper.standard.accessibilityOfKey(key)
             
             let accessibilityDescription = String(describing: accessibilityForKey)
             
             XCTAssertEqual(accessibilityForKey, accessibilityOption, "Accessibility does not match. Expected: \(accessibilityOption) Found: \(accessibilityDescription)")
             
-            // INFO: If re-using a key but with a different accessibility, first remove the previous key value using removeObjectForKey(:withAccessibility) using the same accessibilty it was saved with 
-            KeychainWrapper.standard.removeObject(forKey: key, withAccessibility: accessibilityOption)
+            // INFO: If re-using a key but with a different accessibility, first remove the previous key value using removeObjectForKey(:withAccessibility) using the same accessibilty it was saved with
+            XCTAssertNoThrow(try KeychainWrapper.standard.removeObject(forKey: key, withAccessibility: accessibilityOption))
         }
     }
 }
