@@ -149,7 +149,7 @@ Download and drop ```KeychainWrapper.swift``` and ```KeychainItemAcessibility.sw
 
 ## Release History
 
-* 4.1
+* 4.0.1
 Added conditional logic for CGFloat accessories for when package is used where CGFloat is not available
 
 * 4.0
