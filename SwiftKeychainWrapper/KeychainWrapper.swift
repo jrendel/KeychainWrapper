@@ -207,6 +207,17 @@ open class KeychainWrapper {
         return NSKeyedUnarchiver.unarchiveObject(with: keychainData) as? NSCoding
     }
 
+    /// Returns a Codable object for a specified key.
+    ///
+    /// - parameter forKey: The key to lookup data for.
+    /// - parameter withAccessibility: Optional accessibility to use when retrieving the keychain item.
+    /// - parameter isSynchronizable: A bool that describes if the item should be synchronizable, to be synched with the iCloud. If none is provided, will default to false
+    /// - returns: The Codable object associated with the key if it exists. If no codable exists, returns nil.
+    open func codable<T : Codable>(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil, isSynchronizable: Bool = false) -> T? {
+        guard let data = data(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable) else { return nil }
+        
+        return try? JSONDecoder().decode(T.self, from: data)
+    }
     
     /// Returns a Data object for a specified key.
     ///
@@ -295,6 +306,19 @@ open class KeychainWrapper {
     /// - returns: True if the save was successful, false otherwise.
     @discardableResult open func set(_ value: NSCoding, forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil, isSynchronizable: Bool = false) -> Bool {
         let data = NSKeyedArchiver.archivedData(withRootObject: value)
+        
+        return set(data, forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
+    }
+    
+    /// Save a Codable object as data to the keychain associated with a specified key. If data already exists for the given key, the data will be overwritten with the new value.
+    ///
+    /// - parameter value: The Codable object to save.
+    /// - parameter forKey: The key to save the object under.
+    /// - parameter withAccessibility: Optional accessibility to use when setting the keychain item.
+    /// - parameter isSynchronizable: A bool that describes if the item should be synchronizable, to be synched with the iCloud. If none is provided, will default to false
+    /// - returns: True if the save was successful, false otherwise.
+    @discardableResult open func set<T : Codable>(_ value : T, forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil, isSynchronizable: Bool = false) -> Bool {
+        guard let data = try? JSONEncoder().encode(value) else { return false }
         
         return set(data, forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
     }

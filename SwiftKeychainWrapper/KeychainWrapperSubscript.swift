@@ -73,6 +73,14 @@ public extension KeychainWrapper {
     }
     #endif
     
+    subscript<T : Codable>(key: Key) -> T? {
+        get { return codable(forKey: key) }
+        set {
+            guard let value = newValue else { return }
+            set(value, forKey: key.rawValue)
+        }
+    }
+    
     subscript(key: Key) -> Data? {
         get { return data(forKey: key) }
         set {
@@ -85,6 +93,13 @@ public extension KeychainWrapper {
 
 
 public extension KeychainWrapper {
+    
+    public func codable<T : Codable>(forKey key: Key) -> T? {
+        if let value : T = codable(forKey: key.rawValue) {
+            return value
+        }
+        return nil
+    }
     
     func data(forKey key: Key) -> Data? {
         if let value = data(forKey: key.rawValue) {
