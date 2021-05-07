@@ -34,9 +34,7 @@ class KeychainWrapperTests: XCTestCase {
         let accessibilityOptions: [KeychainItemAccessibility] = [
             .afterFirstUnlock,
             .afterFirstUnlockThisDeviceOnly,
-            .always,
             .whenPasscodeSetThisDeviceOnly,
-            .alwaysThisDeviceOnly,
             .whenUnlocked,
             .whenUnlockedThisDeviceOnly
         ]

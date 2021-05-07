@@ -27,11 +27,14 @@
 
 import Foundation
 
-class TestObject: NSObject, NSCoding {
+class TestObject: NSObject, NSSecureCoding {
+        
     var objectName = "Name"
     var objectRating = 0
     
     override init() { }
+    
+    static var supportsSecureCoding: Bool { true }
     
     required init?(coder decoder: NSCoder) {
         if let name = decoder.decodeObject(forKey: "objectName") as? String {
